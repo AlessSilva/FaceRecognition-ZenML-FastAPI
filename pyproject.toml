@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "facerecognition-zenml-fastapi"
+version = "0.1.0"
+description = "Desenvolver uma aplicação de reconhecimento facial que permita verificar a similaridade entre uma imagem de entrada e imagens em uma base de dados, com a possibilidade de adicionar novas faces à base."
+authors = ["AlessSilva <alessandrosouza.eq@gmail.com>"]
+license = "Apache-2.0 license"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+tensorflow = "^2.18.0"
+pytest = "^8.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
