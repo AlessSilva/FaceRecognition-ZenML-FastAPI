@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch 
-from components.ingestor import KaggleDataIngestor
+from components.ingestor import KaggleDataIngestor, DataIngestorFactory
 from components.exceptions import DatasetDownloadError
 
 @pytest.fixture
@@ -27,3 +27,15 @@ def test_kaggle_data_ingestor_dataset_not_defined(kaggle_data_ingestor):
         kaggle_data_ingestor.dataset_name = None
         kaggle_data_ingestor.ingest()
     assert str(exc_info.value) == "Dataset name is required"
+
+
+def test_data_ingestor_factory():
+    data_ingestor = DataIngestorFactory.get_data_ingestor(name="kaggle",
+                                                          dataset_name="sample-dataset")
+    assert isinstance(data_ingestor, KaggleDataIngestor)
+
+def test_data_ingestor_unsupported():
+    with pytest.raises(ValueError) as exc_info:
+        DataIngestorFactory.get_data_ingestor(name="invalid",
+                                              dataset_name="sample-dataset")
+    assert str(exc_info.value) == "Unsupported data ingestor: invalid"

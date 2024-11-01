@@ -57,3 +57,16 @@ class KaggleDataIngestor(DataIngestor):
         except Exception as e:
             logger.info(f"Error ingesting dataset: {e}")
             raise e
+
+
+class DataIngestorFactory:
+    @staticmethod
+    def get_data_ingestor(name: str,
+                          root_path: Optional[str] = None,
+                          train_path: Optional[str] = None,
+                          dataset_name: Optional[str] = None) -> DataIngestor:
+        if name == "kaggle":
+            return KaggleDataIngestor(dataset_name=dataset_name,
+                                      train_path=train_path)
+        else:
+            raise ValueError(f"Unsupported data ingestor: {name}")
