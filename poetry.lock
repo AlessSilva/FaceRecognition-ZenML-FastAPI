@@ -330,6 +330,22 @@ files = [
 ]
 
 [[package]]
+name = "kagglehub"
+version = "0.3.3"
+description = "Access Kaggle resources anywhere"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "kagglehub-0.3.3-py3-none-any.whl", hash = "sha256:5370acde855d04b6d8a7bc242edff339266913fffc8b198d31859b25b7d095f7"},
+    {file = "kagglehub-0.3.3.tar.gz", hash = "sha256:0777d4d1ee1e59d4125b14ba62a46b2eadedb68bc6517479f6fb02a522a262f8"},
+]
+
+[package.dependencies]
+packaging = "*"
+requests = "*"
+tqdm = "*"
+
+[[package]]
 name = "keras"
 version = "3.6.0"
 description = "Multi-backend Keras."
@@ -956,6 +972,26 @@ files = [
 tests = ["pytest", "pytest-cov"]
 
 [[package]]
+name = "tqdm"
+version = "4.66.6"
+description = "Fast, Extensible Progress Meter"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tqdm-4.66.6-py3-none-any.whl", hash = "sha256:223e8b5359c2efc4b30555531f09e9f2f3589bcd7fdd389271191031b49b7a63"},
+    {file = "tqdm-4.66.6.tar.gz", hash = "sha256:4bdd694238bef1485ce839d67967ab50af8f9272aab687c0d7702a01da0be090"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[package.extras]
+dev = ["pytest (>=6)", "pytest-cov", "pytest-timeout", "pytest-xdist"]
+notebook = ["ipywidgets (>=6)"]
+slack = ["slack-sdk"]
+telegram = ["requests"]
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -1096,4 +1132,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "3bf6e547b5dc5dbdb44d30db21a7f371a44d800d9c8747ccbc1d70746c0e1791"
+content-hash = "175142c4be974991bae50336e935ddb34de7c4aadd088730de9be3cb2b2f49e4"

@@ -2,8 +2,9 @@ import tensorflow as tf
 import keras
 from tensorflow.keras.models import Model
 from tensorflow.keras import layers
-from siamese_model.DistanceLayer import DistanceLayer
-from siamese_model.SiameseModel import SiameseModel
+from components.siamese_model.DistanceLayer import DistanceLayer
+from components.siamese_model.SiameseModel import SiameseModel
+from components.exceptions import SiameseModelCreateError
 from typing import Tuple
 import logging
 
@@ -27,16 +28,15 @@ def create_embedding_model():
       return Model(inputs=base_model.input, outputs=x)
     except Exception as e:
       logger.info(f"Error creating Encoder Model {e}")
-      raise e
+      raise SiameseModelCreateError('Error creating Encoder Model')
 
 
 def create_encoder_and_siamese_network(
   input_shape: Tuple[int, int, int] = (224, 224, 3)
   ):
     logger.info(f"Creating Encoder/Embedding Model and Siamese Network")
+    encoder = create_embedding_model()
     try:
-      encoder = create_embedding_model()
-
       anchor_input = layers.Input(shape=input_shape, name="Anchor_Input")
       positive_input = layers.Input(shape=input_shape, name="Positive_Input")
       negative_input = layers.Input(shape=input_shape, name="Negative_Input")
@@ -58,8 +58,8 @@ def create_encoder_and_siamese_network(
       )
       return encoder, siamese_network
     except Exception as e:
-      logger.info(f"Error creating Encoder Model and Siamese Network {e}")
-      raise e
+      logger.info(f"Error creating Siamese Network {e}")
+      raise SiameseModelCreateError("Error creating Siamese Network")
 
 
 def load_encoder_and_siamese_network(
@@ -93,5 +93,5 @@ def create_siamese_model(
       siamese_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3, epsilon=1e-01))
       return siamese_model
     except Exception as e:
-      logger.info(f"Error creating Siamese Model")
+      logger.info(f"Error creating Siamese Model {e}")
       raise e
