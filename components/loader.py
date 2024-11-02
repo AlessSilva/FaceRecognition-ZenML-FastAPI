@@ -1,11 +1,11 @@
 import os
 from abc import ABC, abstractmethod
 from typing import Tuple, List, Optional
-import logging
 import zipfile
 from components.exceptions import TripletsDataLoadError
 import kagglehub
 import random
+import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
