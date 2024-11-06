@@ -27,7 +27,7 @@ class DataIngestor(ABC):
 
 class KaggleDataIngestor(DataIngestor):
 
-    def ingest(self,) -> Tuple[List[str], List[int], List[str]]:
+    def ingest(self,) -> str:
         def download(dataset_name) -> str:
             try:
                 logger.info(f"Downloading dataset {dataset_name} from kaggle")
@@ -46,7 +46,7 @@ class KaggleDataIngestor(DataIngestor):
             self.root_path = download(self.dataset_name)
 
             if self.train_path and os.path.exists(os.path.join(self.root_path, self.train_path)):
-                logger.info(f"Train path {train_path} found in dataset")
+                logger.info(f"Train path {self.train_path} found in dataset")
                 dataset_train_path = os.path.join(self.root_path,
                                                   self.train_path)
             else:

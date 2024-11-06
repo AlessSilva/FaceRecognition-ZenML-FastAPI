@@ -95,3 +95,17 @@ def create_siamese_model(
     except Exception as e:
       logger.info(f"Error creating Siamese Model {e}")
       raise e
+
+
+def create_siamese_model_from_pieces(
+  encoder: tf.keras.Model,
+  siamese_network: tf.keras.Model,
+  ):
+    logger.info(f"Creating Siamese Model")
+    try:
+      siamese_model = SiameseModel(encoder, siamese_network)
+      siamese_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3, epsilon=1e-01))
+      return siamese_model
+    except Exception as e:
+      logger.info(f"Error creating Siamese Model {e}")
+      raise e

@@ -22,6 +22,7 @@ class PreprocessDecode(Preprocess):
             channels = params.get('channels', 3)
             decode = params.get('decode', 'jpeg')
             dtype = params.get('dtype', tf.float32)
+            logger.info(f"Decoding image with format {decode}, channels: {channels}")
             if decode == 'jpeg':
                 image = tf.image.decode_jpeg(image, channels=channels)
             elif decode == 'png':
@@ -34,6 +35,7 @@ class PreprocessDecode(Preprocess):
             return tf.cast(image, dtype)
 
         except tf.errors.InvalidArgumentError as e:
+            logger.error(f"Error decoding image: {e}")
             raise ValueError(f"Error decoding image: {e}")
 
 
@@ -44,13 +46,15 @@ class PreprocessResize(Preprocess):
         try:
             target_size = params.get('target_size', (224, 224))
             normalize = params.get('normalize', True)
-            
+            logger.info(f"Resizing image with target_size {target_size}, normalize: {normalize}")
+
             image = tf.image.resize(image, target_size)
-            
+
             if normalize:
                 image = image / 255.0
-  
+
             return image
 
         except tf.errors.InvalidArgumentError as e:
+            logger.error(f"Error resizing image: {e}")
             raise ValueError(f"Error resizing image: {e}")
