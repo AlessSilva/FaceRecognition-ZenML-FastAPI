@@ -81,4 +81,3 @@ class DataLoader:
     
     def load(self):
         return self.data_load_method.load(self.dataset_path)
-

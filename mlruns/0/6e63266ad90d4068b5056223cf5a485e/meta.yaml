@@ -1,0 +1,15 @@
+artifact_uri: file:///home/alessandro/FaceRecognition-ZenML-FastAPI/mlruns/0/6e63266ad90d4068b5056223cf5a485e/artifacts
+end_time: 1730931672370
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6e63266ad90d4068b5056223cf5a485e
+run_name: monumental-stork-201
+run_uuid: 6e63266ad90d4068b5056223cf5a485e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730931438850
+status: 3
+tags: []
+user_id: alessandro
