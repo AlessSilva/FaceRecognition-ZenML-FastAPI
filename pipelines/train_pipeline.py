@@ -13,7 +13,7 @@ def train_pipeline(
     dataset_path = ingest_dataset(dataset_name=dataset_name, train_path=train_path)
     print(dataset_path)
     triplet_dataset = prepare_triplets(dataset_path)
-    training(triplet_dataset, save_path=save_path, epochs=epochs)
+    encoder, siamese_network = training(triplet_dataset, save_path=save_path, epochs=epochs)
 
 if __name__ == "__main__":
     run = train_pipeline()

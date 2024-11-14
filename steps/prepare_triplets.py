@@ -6,6 +6,7 @@ from components.loader import DataLoader, TripletsDataLoadMethod
 from components.dataset import TripletsDataset
 from components.preprocess import PreprocessDecode, PreprocessResize
 from zenml.integrations.tensorflow.materializers.tf_dataset_materializer import TensorflowDatasetMaterializer
+from typing import Annotated
 
 
 logging.basicConfig(level=logging.INFO)
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @step
 def prepare_triplets(dataset_path: str,
-                    ) -> tf.data.Dataset:
+                    ) -> Annotated[tf.data.Dataset, "triplets_dataset"]:
     try:
         logger.info(f"Prepare triplets step")
         loader = DataLoader(dataset_path, TripletsDataLoadMethod())

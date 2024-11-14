@@ -4,6 +4,8 @@ import logging
 import tensorflow as tf
 import mlflow
 from components.siamese_model.functions import create_siamese_model
+from typing import Tuple, Annotated
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,7 +15,8 @@ def training(
     triplet_dataset: tf.data.Dataset,
     save_path: str,
     epochs: int = 10,
-) -> tf.keras.Model:
+) -> Tuple[Annotated[tf.keras.Model, "embedding_model"],
+           Annotated[tf.keras.Model, "siamese_network"]]:
     try:
         siamese_model = create_siamese_model()
         if not os.path.exists(save_path):
@@ -48,3 +51,4 @@ def training(
         raise e
     finally:
         mlflow.end_run()
+    return siamese_model.encoder, siamese_model.siamese_network
