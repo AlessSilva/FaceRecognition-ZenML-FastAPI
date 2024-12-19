@@ -2,6 +2,7 @@ import os
 from zenml import step
 import logging
 import tensorflow as tf
+import numpy as np
 import mlflow
 from components.siamese_model.functions import create_siamese_model
 from typing import Tuple, Annotated
@@ -19,6 +20,7 @@ def training(
            Annotated[tf.keras.Model, "siamese_network"]]:
     try:
         siamese_model = create_siamese_model()
+
         if not os.path.exists(save_path):
             os.makedirs(save_path)
             logger.info(f"Diretório {save_path} criado!")
@@ -44,8 +46,14 @@ def training(
                 siamese_model.encoder.save(encoder_path)
                 siamese_model.siamese_network.save(siamese_network_path)
 
-                mlflow.keras.log_model(siamese_model.encoder, "encoder")
-                mlflow.keras.log_model(siamese_model.siamese_network, "siamese_network")
+                mlflow.keras.log_model(
+                    siamese_model.encoder,
+                    "encoder",
+                )
+                mlflow.keras.log_model(
+                    siamese_model.siamese_network,
+                    "siamese_network",
+                )
     except Exception as e:
         logger.error("Error during training step", exc_info=e)
         raise e

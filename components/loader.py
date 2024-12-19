@@ -24,7 +24,7 @@ class TripletsDataLoadMethod(DataLoadMethod):
             logger.info(f"Loading images from folder {dataset_path}")
             image_paths = []
             labels = []
-            class_names = sorted(os.listdir(dataset_path)[:2])
+            class_names = sorted(os.listdir(dataset_path)[:3])
             logger.info(f"Class names: {class_names}")
 
             class_to_label = {
@@ -71,6 +71,36 @@ class TripletsDataLoadMethod(DataLoadMethod):
         except Exception as e:
             logger.info(f"Error loading images: {e}")
             raise TripletsDataLoadError(dataset_path, f"Failed to loading dataset")
+
+    
+class TradicionalDataLoadMethod(DataLoadMethod):
+    def load(self, dataset_path):
+        try:
+            logger.info(f"Loading images from folder {dataset_path}")
+            image_paths = []
+            labels = []
+            class_names = sorted(os.listdir(dataset_path)[:3])
+            logger.info(f"Class names: {class_names}")
+
+            class_to_label = {
+                class_name: index for index, class_name in enumerate(class_names)
+            }
+
+            for class_name in class_names:
+                class_folder = os.path.join(dataset_path, class_name)
+                for filename in os.listdir(class_folder):
+                    image_paths.append(os.path.join(class_folder, filename))
+                    labels.append(class_to_label[class_name])
+
+            logger.info(f"Number of images: {len(image_paths)}")
+            logger.info(f"Number of labels: {len(labels)}")
+
+            tradicional = [image_paths, labels]
+            return tradicional
+        except Exception as e:
+            logger.info(f"Error loading images: {e}")
+            raise TripletsDataLoadError(dataset_path, f"Failed to loading dataset")
+
 
 class DataLoader:
     def __init__(self,

@@ -1,12 +1,10 @@
- from zenml import step
+from zenml import step
 import os
 import logging
 import tensorflow as tf
-from components.loader import DataLoader, TripletsDataLoadMethod
-from components.dataset import TripletsDataset
-from components.preprocess import PreprocessDecode, PreprocessResize
 from zenml.integrations.tensorflow.materializers.tf_dataset_materializer import TensorflowDatasetMaterializer
 from typing import Annotated
+from components.database import setup_database, setup_faiss_index, add_vector_to_index
 
 
 logging.basicConfig(level=logging.INFO)
@@ -14,25 +12,21 @@ logger = logging.getLogger(__name__)
 
 @step
 def register_database(encoder: tf.keras.Model,
-                      
-                      ) -> Annotated[tf.data.Dataset, "triplets_dataset"]:
+                      traditional_dataset: tf.data.Dataset,
+                      ) -> Annotated[str, "database_path"]:
     try:
-        logger.info(f"Prepare triplets step")
-        loader = DataLoader(dataset_path, TripletsDataLoadMethod())
-        triplets = loader.load()
-        preprocessors = [PreprocessDecode(), PreprocessResize()]
-        params = {
-            'channels': 3,
-            'decode': 'jpeg',
-            'target_size': (224, 224),
-            'batch_size': 4
-        }
-        dataset = TripletsDataset().prepare(paths=triplets,
-                                            preprocessors=preprocessors,
-                                            params=params,
-                                            )
-        return dataset
+        logger.info(f"Register database step")
+        database_path = "data.db"
+        setup_database()
+        index = setup_faiss_index(dimension=128)
+        for batch in traditional_dataset:
+            images, labels = batch[0], batch[1]
+            embeddings = encoder(images, training=False)
+            for embedding, label in zip(embeddings, labels):
+                metadata = f"Label: {label.numpy()}"
+                add_vector_to_index(index, embedding.numpy(), metadata)  
+        return database_path
 
     except Exception as e:
-        logger.info(f"Error prepare triplets step")
+        logger.info(f"Error register database step")
         raise e

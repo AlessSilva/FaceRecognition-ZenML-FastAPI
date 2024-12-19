@@ -19,6 +19,7 @@ def prepare_triplets(dataset_path: str,
         logger.info(f"Prepare triplets step")
         loader = DataLoader(dataset_path, TripletsDataLoadMethod())
         triplets = loader.load()
+        logger.info(triplets[0])
         preprocessors = [PreprocessDecode(), PreprocessResize()]
         params = {
             'channels': 3,

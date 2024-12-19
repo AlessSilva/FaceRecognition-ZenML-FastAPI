@@ -1,5 +1,5 @@
 import pytest
-from components.loader import TripletsDataLoadMethod, DataLoader
+from components.loader import TripletsDataLoadMethod, DataLoader, TradicionalDataLoadMethod
 from components.exceptions import TripletsDataLoadError
 
 
@@ -32,7 +32,7 @@ def set_up_dataset_one_image(tmp_path):
     return str(tmp_path)
 
 
-def test_data_loader_correctly(set_up_dataset):
+def test_data_loader_triplets_correctly(set_up_dataset):
     data_loader_method = TripletsDataLoadMethod()
     data_loader = DataLoader(dataset_path=set_up_dataset,
                              data_load_method=data_loader_method)
@@ -40,6 +40,16 @@ def test_data_loader_correctly(set_up_dataset):
     assert len(triplets) > 0
     for triplet in triplets:
         assert len(triplet) == 3
+
+
+def test_data_loader_tradicional_correctly(set_up_dataset):
+    data_loader_method = TradicionalDataLoadMethod()
+    data_loader = DataLoader(dataset_path=set_up_dataset,
+                             data_load_method=data_loader_method)
+    image_paths, labels = data_loader.load()
+    assert len(image_paths) > 0
+    assert len(labels) > 0
+    assert len(labels) == len(image_paths) == 4
 
 
 def test_data_loader_error():

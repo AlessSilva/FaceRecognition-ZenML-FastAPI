@@ -18,9 +18,6 @@ class SiameseModel(Model):
     def call(self, inputs):
         return self.siamese_network(inputs)
 
-    def extract_descriptor(self, input):
-      return self.encoder(input)
-
     def train_step(self, data):
         anchor_input, positive_input, negative_input = data
         with tf.GradientTape() as tape:
